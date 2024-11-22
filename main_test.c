@@ -61,7 +61,7 @@
 	return (0);
 } */
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	char	*args_ls[] = {"/bin/ls", "-l", NULL};
 	char	*args_grep[] = {"/bin/grep", "pipex", NULL};
@@ -89,4 +89,15 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	return (0);
+} */
+
+int	main(int c, char **v, char **env)
+{
+	char	*path;
+	(void) c;
+	(void) v;
+
+	path = get_path_var("grep", env);
+	ft_printf("%s\n", path);
+	free(path);
 }

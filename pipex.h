@@ -20,5 +20,8 @@
 # include "libft.h"
 
 void	check_args(int argc, char **argv);
+void	free_tabs(char **tab);
+char	*ft_get_env(char *name, char **env);
+char	*get_path_var(char *cmd, char **env);
 
 #endif
