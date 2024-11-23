@@ -6,7 +6,7 @@
 /*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 13:09:03 by aberenge          #+#    #+#             */
-/*   Updated: 2024/11/22 13:28:42 by aberenge         ###   ########.fr       */
+/*   Updated: 2024/11/23 10:46:29 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,18 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void) envp;
+	int		pipefd[2];
+	pid_t	pid;
+
 	check_args(argc, argv);
+	pipe(pipefd);
+	pid = fork();
+	if (pid == 0)
+	{
+
+	} else
+	{
+
+	}
 	return (0);
 }
