@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberenge <marvin@42.fr>                    #+#  +:+       +#+        */
+/*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-11-22 15:13:02 by aberenge          #+#    #+#             */
-/*   Updated: 2024-11-22 15:13:02 by aberenge         ###   ########.fr       */
+/*   Created: 2024/11/22 15:13:02 by aberenge          #+#    #+#             */
+/*   Updated: 2024/11/26 14:35:51 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,26 @@ char	*ft_get_env(char *name, char **env)
 	return (NULL);
 }
 
+char	**parse_path(char **env)
+{
+	char	*path_str;
+	char	**pathes;
+
+	path_str = ft_get_env("PATH", env);
+	if (!path_str)
+	{
+		ft_printf("Error: PATH environment variable not found\n");
+		return (NULL);
+	}
+	pathes = ft_split(path_str, ':');
+	if (!pathes)
+	{
+		ft_printf("Error: Parsing PATH\n");
+		return (NULL);
+	}
+	return (pathes);
+}
+
 char	*get_path_var(char *cmd, char **env)
 {
 	int		i;
@@ -43,7 +63,9 @@ char	*get_path_var(char *cmd, char **env)
 	char	*path_base;
 	char	*cmd_path;
 
-	pathes = ft_split(ft_get_env("PATH", env), ':');
+	pathes = parse_path(env);
+	if (!pathes)
+		return (NULL);
 	i = -1;
 	while (pathes[++i])
 	{
@@ -58,5 +80,6 @@ char	*get_path_var(char *cmd, char **env)
 		free(cmd_path);
 	}
 	free_tabs(pathes);
+	ft_printf("Error: Command '%s' not found\n", cmd);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 14:55:03 by aberenge          #+#    #+#             */
-/*   Updated: 2024/11/23 10:42:54 by aberenge         ###   ########.fr       */
+/*   Updated: 2024/11/26 13:47:29 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,20 @@ void	check_args(int argc, char **argv)
 		perror("Error");
 		exit(EXIT_FAILURE);
 	}
+}
+
+int	open_file(char *path, int mode)
+{
+	int	res;
+
+	if (mode == 0)
+		res = open(path, O_RDONLY);
+	if (mode == 1)
+		res = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (res == -1)
+	{
+		perror("Error opening file");
+		exit(EXIT_FAILURE);
+	}
+	return (res);
 }

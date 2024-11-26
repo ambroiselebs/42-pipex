@@ -4,7 +4,7 @@ CFLAGS      = -Wall -Wextra -Werror -O3
 INCLUDES    = -Ilibs/Libft -Ilibs/ft_printf/include -I.
 LIBS        = -Llibs/Libft -lft \
               -Llibs/ft_printf -lftprintf
-SRC         = main_test.c src/utils.c src/path.c
+SRC         = main.c src/utils.c src/path.c
 OBJ         = $(SRC:.c=.o)
 LIBFT       = libs/Libft/libft.a
 FT_PRINTF   = libs/ft_printf/libftprintf.a
