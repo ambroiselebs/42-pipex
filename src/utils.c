@@ -6,11 +6,18 @@
 /*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 14:55:03 by aberenge          #+#    #+#             */
-/*   Updated: 2024/11/26 13:47:29 by aberenge         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:14:57 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	exit_handler(int n_exit)
+{
+	if (n_exit == 1)
+		ft_putstr_fd("./pipex infile cmd cmd outfile\n", 2);
+	exit(0);
+}
 
 void	free_tabs(char **tab)
 {
@@ -26,6 +33,11 @@ void	check_args(int argc, char **argv)
 {
 	if (argc != 5)
 		exit(EXIT_FAILURE);
+	if (!argv[2] || !argv[3])
+	{
+		ft_printf("pipex: command not found\n");
+		exit(EXIT_FAILURE);
+	}
 	if (access(argv[1], F_OK) != 0)
 	{
 		perror("Error");
@@ -37,6 +49,7 @@ int	open_file(char *path, int mode)
 {
 	int	res;
 
+	res = 0;
 	if (mode == 0)
 		res = open(path, O_RDONLY);
 	if (mode == 1)
