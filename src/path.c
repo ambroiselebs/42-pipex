@@ -6,7 +6,7 @@
 /*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 15:13:02 by aberenge          #+#    #+#             */
-/*   Updated: 2024/11/28 15:14:38 by aberenge         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:53:17 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ char	*get_path_var(char *cmd, char **env)
 
 	pathes = parse_path(env);
 	if (!pathes)
-	{
-		ft_printf("pipex: PATH variable not found\n");
-		return (NULL);
-	}
+		return (ft_printf("pipex: PATH variable not found\n"), NULL);
 	i = -1;
 	while (pathes[++i])
 	{
@@ -82,7 +79,8 @@ char	*get_path_var(char *cmd, char **env)
 		}
 		free(cmd_path);
 	}
-	free_tabs(pathes);
 	ft_printf("Error: Command '%s' not found\n", cmd);
+	free_tabs(pathes);
+	free(pathes);
 	return (NULL);
 }

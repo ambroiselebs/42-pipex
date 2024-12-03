@@ -6,16 +6,16 @@
 /*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 13:09:03 by aberenge          #+#    #+#             */
-/*   Updated: 2024/11/27 13:57:32 by aberenge         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:51:56 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void exec_cmd(char *cmd, char **env)
+void	exec_cmd(char *cmd, char **env)
 {
-	char **arg_cmd;
-	char *path;
+	char	**arg_cmd;
+	char	*path;
 
 	arg_cmd = ft_split(cmd, ' ');
 	path = get_path_var(arg_cmd[0], env);
@@ -27,9 +27,9 @@ void exec_cmd(char *cmd, char **env)
 	}
 }
 
-void child(char **argv, int pipefd[2], char **env)
+void	child(char **argv, int pipefd[2], char **env)
 {
-	int fd;
+	int	fd;
 
 	fd = open_file(argv[1], 0);
 	dup2(fd, STDIN_FILENO);
