@@ -46,7 +46,7 @@ void	child(char **argv, char **env, int pipefd[2])
 	int		fd;
 
 	close(pipefd[0]);
-	if (!check_cmd(argv[2], env) || !check_cmd(argv[3], env))
+	if (!check_cmd(argv[2], env))
 	{
 		close(pipefd[1]);
 		exit(EXIT_FAILURE);
@@ -71,6 +71,12 @@ void	parent(char **argv, char **env, int pipefd[2])
 	int		fd;
 
 	close(pipefd[1]);
+	if (!check_cmd(argv[3], env))
+	{
+		close(pipefd[0]);
+		ft_printf("pipex: Command not found\n");
+		exit(EXIT_FAILURE);
+	}
 	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
 	{
