@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberenge <marvin@42.fr>                    #+#  +:+       +#+        */
+/*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-12-12 22:30:39 by aberenge          #+#    #+#             */
-/*   Updated: 2024-12-12 22:30:39 by aberenge         ###   ########.fr       */
+/*   Created: 2024/12/12 22:30:39 by aberenge          #+#    #+#             */
+/*   Updated: 2024/12/13 17:33:17 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ void	exec_cmd(char *cmd, char **env)
 	path = get_path_var(arg_cmd[0], env);
 	if (!path)
 	{
-		ft_printf("pipex: Command not found: %s\n", arg_cmd[0]);
+		perror("pipex: Unknown command");
 		ft_free_tab(arg_cmd);
 		exit(EXIT_FAILURE);
 	}
 	if (execve(path, arg_cmd, env) == -1)
 	{
-		perror("pipex");
-		ft_free_tab(arg_cmd);
+		(perror("pipex"), ft_free_tab(arg_cmd));
 		free(path);
 		exit(EXIT_FAILURE);
 	}
@@ -86,9 +85,10 @@ int	main(int argc, char **argv, char **env)
 {
 	int		pipefd[2];
 	pid_t	pid;
+	int		status;
 
 	if (argc != 5)
-		return (ft_printf("pipex: Usage: ./pipex infile cmd1 cmd2 outfile\n"), 1);
+		return (ft_printf("pipex: ./pipex infile cmd1 cmd2 outfile\n"), 1);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipex: pipe");
@@ -96,16 +96,15 @@ int	main(int argc, char **argv, char **env)
 	}
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("pipex: fork");
-		return (1);
-	}
+		return (perror("pipex: fork"), 1);
 	if (pid == 0)
 		child(argv, env, pipefd);
 	else
 	{
+		waitpid(pid, &status, 0);
+		if (status != 0)
+			return (1);
 		parent(argv, env, pipefd);
-		waitpid(pid, NULL, 0);
 	}
 	return (0);
 }
