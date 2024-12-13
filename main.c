@@ -18,15 +18,16 @@ void	exec_cmd(char *cmd, char **env)
 	char	*path;
 
 	arg_cmd = ft_split(cmd, ' ');
-	if (!arg_cmd)
+	if (!arg_cmd || !arg_cmd[0])
 	{
-		ft_printf("pipex: Error spliting command and arguments\n");
+		ft_printf("pipex: Error splitting command or empty command\n");
+		ft_free_tab(arg_cmd);
 		exit(EXIT_FAILURE);
 	}
 	path = get_path_var(arg_cmd[0], env);
 	if (!path)
 	{
-		ft_printf("pipex: Failed to get command path\n");
+		ft_printf("pipex: Command not found: %s\n", arg_cmd[0]);
 		ft_free_tab(arg_cmd);
 		exit(EXIT_FAILURE);
 	}
@@ -46,16 +47,11 @@ void	child(char **argv, char **env, int pipefd[2])
 	int		fd;
 
 	close(pipefd[0]);
-	if (!check_cmd(argv[2], env))
-	{
-		close(pipefd[1]);
-		exit(EXIT_FAILURE);
-	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
+		perror("pipex: infile");
 		close(pipefd[1]);
-		ft_printf("pipex: infile not readable\n");
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -71,17 +67,11 @@ void	parent(char **argv, char **env, int pipefd[2])
 	int		fd;
 
 	close(pipefd[1]);
-	if (!check_cmd(argv[3], env))
-	{
-		close(pipefd[0]);
-		ft_printf("pipex: Command not found\n");
-		exit(EXIT_FAILURE);
-	}
-	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
+		perror("pipex: outfile");
 		close(pipefd[0]);
-		ft_printf("pipex: outfile not writable\n");
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -89,6 +79,7 @@ void	parent(char **argv, char **env, int pipefd[2])
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 	exec_cmd(argv[3], env);
+	exit(EXIT_FAILURE);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -97,16 +88,16 @@ int	main(int argc, char **argv, char **env)
 	pid_t	pid;
 
 	if (argc != 5)
-		return (ft_printf("pipex: ./pipex infile cmd1 cmd2 outfile\n"), 1);
+		return (ft_printf("pipex: Usage: ./pipex infile cmd1 cmd2 outfile\n"), 1);
 	if (pipe(pipefd) == -1)
 	{
-		perror("pipex: pipe failed");
+		perror("pipex: pipe");
 		return (1);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("pipex: fork failed");
+		perror("pipex: fork");
 		return (1);
 	}
 	if (pid == 0)
