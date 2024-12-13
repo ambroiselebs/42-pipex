@@ -43,7 +43,8 @@ char	**parse_path(char **env)
 
 	all_path = ft_get_var("PATH", env);
 	if (!all_path)
-		return (ft_printf("pipex: PATH environement variable not found\n"), NULL);
+		return (ft_printf("pipex: PATH environement variable not found\n"),
+			NULL);
 	path = ft_split(all_path, ':');
 	if (!path)
 		return (ft_printf("pipex: Failed to parse PATH"), NULL);
