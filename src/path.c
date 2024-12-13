@@ -74,7 +74,7 @@ char	*get_path_var(char *cmd, char **env)
 		}
 		free(cmd_path);
 	}
-	ft_printf("pipex: Command not found");
+	ft_printf("pipex: Command not found\n");
 	ft_free_tab(path);
 	return (NULL);
 }

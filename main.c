@@ -63,6 +63,7 @@ void	child(char **argv, char **env, int pipefd[2])
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	exec_cmd(argv[2], env);
+	exit(EXIT_FAILURE);
 }
 
 void	parent(char **argv, char **env, int pipefd[2])
