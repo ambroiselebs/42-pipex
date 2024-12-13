@@ -44,15 +44,12 @@ void	child(char **argv, char **env, int pipefd[2])
 {
 	int		fd;
 
+	if (!check_cmd(argv[2], env) || !check_cmd(argv[3], env))
+		exit(EXIT_FAILURE);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
 		ft_printf("pipex: infile not readable\n");
-		exit(EXIT_FAILURE);
-	}
-	if (!check_cmd(argv[2], env) || !check_cmd(argv[3], env))
-	{
-		close(fd);
 		exit(EXIT_FAILURE);
 	}
 	dup2(fd, STDIN_FILENO);
