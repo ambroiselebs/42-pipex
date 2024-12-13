@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 char	*get_path_var(char *cmd, char **env);
 int		check_cmd(char *cmd, char **env);
