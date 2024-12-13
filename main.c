@@ -27,6 +27,7 @@ void	exec_cmd(char *cmd, char **env)
 	if (!path)
 	{
 		ft_printf("pipex: Failed to get command path\n");
+		ft_free_tab(arg_cmd);
 		exit(EXIT_FAILURE);
 	}
 	if (execve(path, arg_cmd, env) == -1)

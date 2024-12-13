@@ -88,7 +88,7 @@ int	check_cmd(char *cmd, char **env)
 	if (!cmd_name)
 		return (0);
 	cmd_path = get_path_var(cmd_name[0], env);
-	free(cmd_name);
+	ft_free_tab(cmd_name);
 	if (!cmd_path)
 		return (0);
 	free(cmd_path);
