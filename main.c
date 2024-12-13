@@ -50,7 +50,7 @@ void	child(char **argv, char **env, int pipefd[2])
 		ft_printf("pipex: infile not readable\n");
 		exit(EXIT_FAILURE);
 	}
-	if (!check_cmd(argv[2], env))
+	if (!check_cmd(argv[2], env) || !check_cmd(argv[3], env))
 	{
 		close(fd);
 		exit(EXIT_FAILURE);
@@ -67,8 +67,6 @@ void	parent(char **argv, char **env, int pipefd[2])
 {
 	int		fd;
 
-	if (!check_cmd(argv[3], env))
-		exit(EXIT_FAILURE);
 	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
 	{
