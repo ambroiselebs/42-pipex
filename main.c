@@ -6,7 +6,7 @@
 /*   By: aberenge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:30:39 by aberenge          #+#    #+#             */
-/*   Updated: 2024/12/13 17:33:17 by aberenge         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:44:39 by aberenge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ int	main(int argc, char **argv, char **env)
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (status != 0)
-			return (1);
 		parent(argv, env, pipefd);
 	}
 	return (0);
